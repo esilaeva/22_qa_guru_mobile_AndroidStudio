@@ -2,13 +2,11 @@ package tests;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.MalformedURLException;
-
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
-import static io.appium.java_client.AppiumBy.accessibilityId;
-import static io.appium.java_client.AppiumBy.id;
+import static io.appium.java_client.AppiumBy.*;
 import static io.qameta.allure.Allure.step;
 import static org.openqa.selenium.By.xpath;
 
@@ -27,7 +25,7 @@ public class AndroidTests extends TestBase {
     }
 
     @Test
-    void openArticle() throws MalformedURLException, InterruptedException {
+    void openArticleTest() {
         back();
         step("Type search", () -> {
             $(accessibilityId("Search Wikipedia")).click();
@@ -40,6 +38,39 @@ public class AndroidTests extends TestBase {
 
         step("Checking for error text", () -> {
             $(id("org.wikipedia.alpha:id/view_page_header_image")).shouldBe(visible);
+        });
+    }
+
+    @Test
+    void onboardingScteenTest() {
+        step("Click on the button 'Continue'", () -> {
+            $(id("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
+        });
+        step("Verify that second screen was opened", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("New ways to explore"));
+        });
+
+        step("Click on the button 'Continue'", () -> {
+            $(id("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
+        });
+        step("Verify that third screen was opened", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("Reading lists with sync"));
+        });
+
+        step("Click on the button 'Continue'", () -> {
+            $(id("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
+        });
+        step("Verify that fourth screen was opened", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("Send anonymous data"));
+        });
+
+        step("Click on the button 'Continue'", () -> {
+            $(id("org.wikipedia.alpha:id/view_onboarding_page_indicator"))
+                    .$(className("android.widget.LinearLayout"))
+                    .click();
+        });
+        step("Verify that first screen was opened", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("The Free Encyclopedia …in over 300 languages"));
         });
     }
 }
