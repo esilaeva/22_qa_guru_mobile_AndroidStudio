@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -13,6 +14,7 @@ import static org.openqa.selenium.By.xpath;
 public class AndroidTests extends TestBase {
 
     @Test
+    @Tag("log")
     void successfulSearchTest() {
         back();
         step("Type search", () -> {
