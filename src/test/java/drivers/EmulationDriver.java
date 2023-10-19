@@ -1,8 +1,10 @@
 package drivers;
 
 import com.codeborne.selenide.WebDriverProvider;
+import config.browserstackconfig.BrowserstackConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -14,10 +16,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static io.appium.java_client.remote.AutomationName.ANDROID_UIAUTOMATOR2;
-import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 
-public class LocalDriver implements WebDriverProvider {
+public class EmulationDriver implements WebDriverProvider {
+
+    static BrowserstackConfig config = ConfigFactory.create(BrowserstackConfig.class, System.getProperties());
 
     public static URL getAppiumServerUrl() {
         try {
@@ -35,15 +38,12 @@ public class LocalDriver implements WebDriverProvider {
 
         options
                 .setAutomationName(ANDROID_UIAUTOMATOR2)
-                .setPlatformVersion(ANDROID)
-                .setPlatformVersion("11.0")
-                .setDeviceName("Pixel4")
+                .setPlatformName(config.getPlatformName())
+                .setPlatformVersion(config.getPlatformVersion())
+                .setDeviceName(config.getDevice())
                 .setApp(getAppPath())
-                .setAppPackage("org.wikipedia.alpha")
-                .setAppActivity("org.wikipedia.main.MainActivity");
-
-        options.setCapability("deviceName", "Samsung Galaxy S22 Ultra");
-        options.setCapability("platformVersion", "11.0");
+                .setAppPackage(config.getAppPackage())
+                .setAppActivity(config.getAppActivity());
 
         return new AndroidDriver(getAppiumServerUrl(), options);
     }
