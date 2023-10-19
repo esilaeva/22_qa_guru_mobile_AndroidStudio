@@ -30,7 +30,8 @@ public class AndroidTests extends TestBase {
     }
 
     @Test
-    void onboardingScteenTest() {
+    @Tag("em_test")
+    void onboardingScreenTest() {
         Steps step = new Steps();
 
         step.clickButtonContinue();
