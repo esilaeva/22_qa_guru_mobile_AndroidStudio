@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.EmulationDriverConfig;
 import config.browserstackconfig.BrowserstackConfig;
@@ -28,14 +29,8 @@ public class TestBase {
             Configuration.browser = EmulationDriver.class.getName();
         else if (browserstackConfig.getDeviceHost().equals("browserstack"))
             Configuration.browser = BrowserstackDriver.class.getName();
-//        else if(config.getDeviceHost().equals("android"))
-//            Configuration.browser = LocalDriver.class.getName();
-//        else if(config.getDeviceHost().equals("ios"))
-//            Configuration.browser = BrowserstackDriver.class.getName();
-//        Configuration.browserSize = null;
 
         Configuration.browserSize = null;
-//         Configuration.timeout = 30000;
     }
 
     @BeforeEach
@@ -46,10 +41,15 @@ public class TestBase {
 
     @AfterEach
     void afterEach() {
-        Attach.screenshotAs("Last screenshot");
+        String sessionId = "";
+        if (emulationConfig.getDeviceHost().equals("emulation")) {
+            Attach.screenshotAs("Last screenshot");
+        } else if (browserstackConfig.getDeviceHost().equals("browserstack")) {
+            sessionId = Selenide.sessionId().toString();
+        }
         Attach.pageSource();
-
         closeWebDriver();
-
+        if (browserstackConfig.getDeviceHost().equals("browserstack"))
+            Attach.addVideo(sessionId);
     }
 }

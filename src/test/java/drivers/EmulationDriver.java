@@ -2,7 +2,6 @@ package drivers;
 
 import com.codeborne.selenide.WebDriverProvider;
 import config.EmulationDriverConfig;
-import config.browserstackconfig.BrowserstackConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.aeonbits.owner.ConfigFactory;
