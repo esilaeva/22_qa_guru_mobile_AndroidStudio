@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import config.EmulationDriverConfig;
 import config.browserstackconfig.BrowserstackConfig;
 import drivers.BrowserstackDriver;
 import drivers.EmulationDriver;
@@ -18,13 +19,14 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class TestBase {
 
-    static BrowserstackConfig config = ConfigFactory.create(BrowserstackConfig.class, System.getProperties());
+    static EmulationDriverConfig emulationConfig = ConfigFactory.create(EmulationDriverConfig.class, System.getProperties());
+    static BrowserstackConfig browserstackConfig = ConfigFactory.create(BrowserstackConfig.class, System.getProperties());
 
     @BeforeAll
     static void beforeAll() {
-        if (config.getDeviceHost().equals("emulation"))
+        if (emulationConfig.getDeviceHost().equals("emulation"))
             Configuration.browser = EmulationDriver.class.getName();
-        else if (config.getDeviceHost().equals("browserstack"))
+        else if (browserstackConfig.getDeviceHost().equals("browserstack"))
             Configuration.browser = BrowserstackDriver.class.getName();
 //        else if(config.getDeviceHost().equals("android"))
 //            Configuration.browser = LocalDriver.class.getName();
