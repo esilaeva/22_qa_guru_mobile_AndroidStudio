@@ -1,6 +1,7 @@
 package drivers;
 
 import com.codeborne.selenide.WebDriverProvider;
+import config.EmulationDriverConfig;
 import config.browserstackconfig.BrowserstackConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -20,7 +21,7 @@ import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 
 public class EmulationDriver implements WebDriverProvider {
 
-    static BrowserstackConfig config = ConfigFactory.create(BrowserstackConfig.class, System.getProperties());
+    static EmulationDriverConfig config = ConfigFactory.create(EmulationDriverConfig.class, System.getProperties());
 
     public static URL getAppiumServerUrl() {
         try {
