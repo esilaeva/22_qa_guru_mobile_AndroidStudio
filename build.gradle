@@ -71,8 +71,14 @@ task ios_test(type: Test) {
     }
 }
 
-task log_test(type: Test) {
+task emulation_test(type: Test) {
     useJUnitPlatform {
-        includeTags("log")
+        includeTags("em_test")
+    }
+}
+
+task browserstack_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("browserstack")
     }
 }
